@@ -1,22 +1,32 @@
 comprobarToken();
 window.onload = () => { // Protegido con onload porque necesito algo del documento 
+    setTimeout(() => {
+        finalizarLoader();
+    }, 3000);
     pedirTareas();
     botonAgregarTarea();
 }
 
+function finalizarLoader() {
+    const contenedorSpinner = document.querySelector("#carga-inicial");
+    const contenedorMainPage = document.querySelector("#main-page");
+    contenedorSpinner.style.opacity = 0;   
+    contenedorMainPage.style.opacity = 1;   
+}
+
 function comprobarToken() {
     const token = localStorage.getItem("token");
-    if(!token) {
+    if (!token) {
         location.href = './login.html';
-    } 
+    }
 }
 
 function pedirTareas() {
     const url = 'https://ctd-todo-api.herokuapp.com/v1';
     const token = localStorage.getItem("token");
-    fetch(`${url}/tasks`, { 
+    fetch(`${url}/tasks`, {
         // method: 'GET', No es necesario, va por defecto
-        headers: {  
+        headers: {
             "Authorization": token // agregrarlo en clase de datosUsuarios
         }
     }).then(datos => {
@@ -29,13 +39,13 @@ function pedirTareas() {
 }
 
 // Actualizar tareas
-function completarTarea(id,completed) {
+function completarTarea(id, completed) {
     const url = 'https://ctd-todo-api.herokuapp.com/v1';
     const token = localStorage.getItem("token");
 
-    fetch(`${url}/tasks/${id}`, { 
+    fetch(`${url}/tasks/${id}`, {
         method: 'PUT',
-        headers: {  
+        headers: {
             authorization: token, // agregrarlo en clase de datosUsuarios
             "Content-Type": "application/json"
         },
@@ -45,21 +55,19 @@ function completarTarea(id,completed) {
     }).then(datos => {
         return datos.json();
     }).then(tareas => {
-        document.querySelector('ul.tareas-pendientes').innerHTML = '';
-        document.querySelector('ul.tareas-terminadas').innerHTML = '';
         pedirTareas();
     }).catch(err => {
         console.log(err);
     });
 }
 
-function confirmarEliminar() {
-    return eliminar = confirm("¿Realmente desea eliminar la tarea?");
-}
-
 function eliminarTarea(id) {
     const url = 'https://ctd-todo-api.herokuapp.com/v1';
     const token = localStorage.getItem("token");
+
+    if (!confirm("¿Realmente desea eliminar la tarea?")) {
+        return;
+    }
 
     fetch(`${url}/tasks/${id}`, {
         method: 'DELETE',
@@ -68,17 +76,18 @@ function eliminarTarea(id) {
         }
     }).then(datos => {
         return datos.json();
-    }).then(tareas => {
-        document.querySelector('ul.tareas-pendientes').innerHTML = '';
-        document.querySelector('ul.tareas-terminadas').innerHTML = '';
+    }).then(tareas => { // Se puede optimizar y complejizar lógica para que solo se renderice lo que cambió
         pedirTareas();
     }).catch(err => {
         console.log(err);
     })
 }
-  
+
 // Funcion: Recorre tarea solamente, y por cada una hace algo, renderizarla (esa responsabilidad está en otra función)
 function crearTareas(tareas) {
+    document.querySelector('ul.tareas-pendientes').innerHTML = '';
+    document.querySelector('ul.tareas-terminadas').innerHTML = '';
+
     tareas.forEach(tarea => {
         renderizarTarea(tarea);
     }); // Se podría usar filter de tareas completas también
@@ -102,12 +111,12 @@ function renderizarTarea(tarea) {
             <p class="nombre">${tarea.description}</p>
             <div class="right-description">
                 <p class="timestamp">Creado el: ${formatDate}</p>
-                <button class="button-trash" onClick="confirmarEliminar()?eliminarTarea(${tarea.id}):false"><i class="fas fa-trash trash"></i></button>
+                <button class="button-trash" onClick="eliminarTarea(${tarea.id})"><i class="fas fa-trash trash"></i></button>
             </div>
         </div>
     </li>
     `;
-    contenedorTareas.innerHTML += template;    
+    contenedorTareas.innerHTML += template;
 }
 
 function agregarTareas(userValue) {
@@ -130,8 +139,6 @@ function agregarTareas(userValue) {
         return datos.json();
     }).then(tareas => {
         console.log(tareas);
-        document.querySelector('ul.tareas-pendientes').innerHTML = '';
-        document.querySelector('ul.tareas-terminadas').innerHTML = '';
         pedirTareas();
     }).catch(err => {
         console.log(err);
@@ -140,9 +147,14 @@ function agregarTareas(userValue) {
 
 function botonAgregarTarea() {
     const form = document.forms.newtask;
+    const loadingTasks = document.querySelector("#loading-spinner");
     form.addEventListener("submit", (e) => {
         e.preventDefault();
-        agregarTareas(form.input.value);
+        loadingTasks.style.opacity = 1;
+        setTimeout(() => {
+            loadingTasks.style.opacity = 0;
+            agregarTareas(form.input.value);
+        }, 2000);
     });
 }
 
@@ -151,6 +163,6 @@ function formatearFecha(fecha) {
     const day = date.getDay();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    return formatDay = `${day<10? "0"+day:day}-${month<10? "0"+month:month}-${year}`;
+    return formatDay = `${day < 10 ? "0" + day : day}-${month < 10 ? "0" + month : month}-${year}`;
 
 }

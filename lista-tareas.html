@@ -5,13 +5,20 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="./styles/lista-tareas.css">
+  <link rel="stylesheet" href="./styles/animations.css">
   <script src="./scripts/lista_tareas.js"></script>
   <title>ToDo</title>
 </head>
 
 <body>
+  <div id="carga-inicial" style=" opacity: 1;">
+    <div id="carga"></div>
+  </div>
+
   <header>
     <nav>
       <a href="#">My ToDo's</a>
@@ -23,19 +30,50 @@
     </div>
   </header>
 
-
-  <form class="nueva-tarea" id="newtask">
-    <div class="not-done "></div>
-    <input id="input" type="text" placeholder="Nueva tarea">
-    <button>
-      <img src="./assets/plus.png" alt="Agregar Tarea">
-    </button>
-  </form>
-
-  <ul class="tareas-pendientes"></ul>
-
-  <h2 class="titulo-terminadas">Tareas terminadas</h2>
-  <ul class="tareas-terminadas"></ul>
+  
+  <div id="main-page" style=" opacity: 0;">
+    <form class="nueva-tarea" id="newtask">
+      <div class="not-done "></div>
+      <input id="input" type="text" placeholder="Nueva tarea">
+      <button>
+        <img src="./assets/plus.png" alt="Agregar Tarea">
+      </button>
+    </form>
+    
+    <ul class="tareas-pendientes">
+      
+      <li class="tarea loading">
+        <div class="not-done"></div>
+        <div class="descripcion">
+          <p class="nombre"></p>
+          <div class="right-description">
+            <p class="timestamp"></p>
+          </div>
+        </div>
+      </li>
+      <li class="tarea loading" style="opacity: .5;">
+        <div class="not-done"></div>
+        <div class="descripcion">
+          <p class="nombre"></p>
+          <div class="right-description">
+            <p class="timestamp"></p>
+          </div>
+        </div>
+      </li>
+      
+    </ul>
+    
+    <div class="loading-spinner" id="loading-spinner">
+      <h5>Cargando tareas</h5>
+      <div class="circle1"></div>
+      <div class="circle2"></div>
+      <div class="circle3"></div>
+    </div>
+    
+    <h2 class="titulo-terminadas">Tareas terminadas</h2>
+    <ul class="tareas-terminadas"></ul>
+  </div>
 
 </body>
+
 </html>
