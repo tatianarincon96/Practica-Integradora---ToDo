@@ -119,14 +119,14 @@ function renderizarTarea(tarea) {
     contenedorTareas.innerHTML += template;
 }
 
-function agregarTareas(userValue) {
+function agregarTareas(userValue,loadingTasks) {
     const url = 'https://ctd-todo-api.herokuapp.com/v1';
     const token = localStorage.getItem("token");
     const body = {
         description: userValue,
         completed: false
     }
-
+    
     fetch(`${url}/tasks`, {
         method: 'POST',
         headers: {
@@ -140,6 +140,7 @@ function agregarTareas(userValue) {
     }).then(tareas => {
         console.log(tareas);
         pedirTareas();
+        loadingTasks.style.opacity = 0;
     }).catch(err => {
         console.log(err);
     });
@@ -152,9 +153,8 @@ function botonAgregarTarea() {
         e.preventDefault();
         loadingTasks.style.opacity = 1;
         setTimeout(() => {
-            loadingTasks.style.opacity = 0;
-            agregarTareas(form.input.value);
-        }, 2000);
+            agregarTareas(form.input.value,loadingTasks);
+        }, 3000);
     });
 }
 
