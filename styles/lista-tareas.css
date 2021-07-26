@@ -36,6 +36,15 @@ a {
   margin-left: .7em;
 }
 
+.power-off {
+  font-size: 1em;
+  margin-left: 1.5em;
+}
+
+.power-off:hover {
+  color: rgb(95, 95, 95);
+}
+
 /* Nueva tarea ----------------------------------------------------------- */
 
 .nueva-tarea {

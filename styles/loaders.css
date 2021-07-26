@@ -1,0 +1,130 @@
+@import url('./common.css');
+
+/* Esta clase oculta el formulario */
+.hidden {
+  display: none;
+}
+
+/* Estilos del Spinner */
+#contenedor-carga {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  -webkit-transition: all 3s ease;
+  transition: all 3s ease;
+  background-color: whitesmoke;
+}
+
+#carga {
+  border: 10px solid rgb(255, 255, 255);
+  border-top-color: var(--primary);
+  border-bottom-color: var(--secondary);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  -webkit-animation: girar 1.5s linear infinite;
+  animation: girar 1.5s linear infinite;
+}
+
+/* Animación del spinner */
+@-webkit-keyframes girar {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes girar {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* SKELETON */
+.tarea.loading .descripcion .nombre,
+.loading .descripcion .timestamp {
+  display: block;
+  height: 1em;
+  width: 20em;
+  background-color: rgb(236, 231, 231);
+  transform-origin: 0 0; /* Cambiar origen de inicio de transform, en este caso desde izq */
+  
+  animation-name: loadingTask;
+  animation-iteration-count: infinite;
+  animation-duration: 1000ms;
+
+}
+
+.tarea.loading .descripcion .timestamp {
+  width: 10em;
+}
+
+@keyframes loadingTask {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(.8);
+  }
+}
+
+/* Loader - Cargando nueva tarea ------------------------------------------------------------ */
+
+.loading-spinner {
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  width: 70%;
+  height: 2em;
+  list-style: none;
+  margin: 1.3em 16em;
+}
+
+.loading-spinner .circle1,
+.circle2,
+.circle3 {
+  border-radius: 50%;
+  margin-right: 0.2em;
+  width: 0.5em;
+  height: 0.5em;
+  background-color: rgb(95, 95, 95);
+  animation: spinner 1000ms infinite linear alternate;
+}
+
+.circle1 {
+  animation-delay: 200s;
+}
+
+.circle2 {
+  animation-delay: 400ms;
+}
+
+.circle3 {
+  animation-delay: 600ms;
+}
+
+@keyframes spinner {
+  0% {
+    transform: translateY(-2em);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

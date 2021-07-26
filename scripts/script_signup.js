@@ -8,19 +8,22 @@ window.onload = () => {
 
     formLogin.addEventListener("submit", (event) => {
         event.preventDefault();
+        // Aquí podemos mostrar el spinner para indicar a la persona que se
+        // ha iniciado el proceso de registro
+        mostrarSpinner();
         const nombreValido = validarNombre(nombre.value);
-        const contraseniaValida = validarContrasenia(contrasenia.value,repetirContrasenia.value);
+        const contraseniaValida = validarContrasenia(contrasenia.value, repetirContrasenia.value);
         const emailValido = validarEmail(email.value);
 
         if (nombreValido && contraseniaValida && emailValido) {
-            const datosUsuario =  new DatosUsuarios();
+            const datosUsuario = new DatosUsuarios();
             datosUsuario.setFirstname(nombre.value);
             datosUsuario.setLastname('DH');
             datosUsuario.setEmail(email.value);
             datosUsuario.setPassword(contrasenia.value);
 
             const url = 'https://ctd-todo-api.herokuapp.com/v1'; // url base
-            
+
             fetch(`${url}/users`, { // url + parte especifica
                 method: 'POST', // Método requerido
                 headers: {
@@ -41,14 +44,14 @@ window.onload = () => {
 
     function validarNombre(valor) {
         const regex = new RegExp('[0-9]');
-        
+
         const testTieneNumeros = regex.test(valor);
         const longitudCorrecta = valor.length > 2;
-        
+
         return !testTieneNumeros && longitudCorrecta;
     }
 
-    function validarContrasenia(contrasenia,repetirContrasenia) {
+    function validarContrasenia(contrasenia, repetirContrasenia) {
         const coincidentes = contrasenia === repetirContrasenia;
         const longitudCorrecta = contrasenia.length >= 8;
         const regex = /[A-Z]/;
@@ -56,10 +59,10 @@ window.onload = () => {
 
         return coincidentes && longitudCorrecta && testTieneMayuscula;
     }
-    
+
     function validarEmail(valor) {
         const regex = /[A-z]+[0-9]+@+[yahoo]+.[A-z]{3}/; // Agregar .ar => .(ar)?
-        const emailDeYahoo = regex.test(valor); 
+        const emailDeYahoo = regex.test(valor);
         return !emailDeYahoo && valor !== null;
     }
 

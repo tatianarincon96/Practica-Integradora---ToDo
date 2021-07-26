@@ -3,6 +3,7 @@ window.onload = () => {
     
     form.addEventListener("submit", e => { // submit a form, no a boton
         e.preventDefault();
+        mostrarSpinner();
         
         const email = form.email.value;
         const password = form.password.value;

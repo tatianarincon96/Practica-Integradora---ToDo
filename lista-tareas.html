@@ -9,69 +9,48 @@
     integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="./styles/lista-tareas.css">
-  <link rel="stylesheet" href="./styles/animations.css">
+  <link rel="stylesheet" href="./styles/loaders.css">
+  <script src="./scripts/loaders.js"></script>
   <script src="./scripts/lista_tareas.js"></script>
   <title>ToDo</title>
 </head>
 
 <body>
-  <div id="carga-inicial" style=" opacity: 1;">
-    <div id="carga"></div>
-  </div>
 
   <header>
     <nav>
       <a href="#">My ToDo's</a>
     </nav>
 
-    <div class="user-info">
+    <div class="user-info" id="user-info">
       <p>username</p>
       <div class="user-image"></div>
+      <div id="logout-button"><i class="fas fa-power-off power-off"></i></div>
     </div>
   </header>
 
-  
-  <div id="main-page" style=" opacity: 0;">
-    <form class="nueva-tarea" id="newtask">
-      <div class="not-done "></div>
-      <input id="input" type="text" placeholder="Nueva tarea">
-      <button>
-        <img src="./assets/plus.png" alt="Agregar Tarea">
-      </button>
-    </form>
-    
-    <ul class="tareas-pendientes">
-      
-      <li class="tarea loading">
-        <div class="not-done"></div>
-        <div class="descripcion">
-          <p class="nombre"></p>
-          <div class="right-description">
-            <p class="timestamp"></p>
-          </div>
-        </div>
-      </li>
-      <li class="tarea loading" style="opacity: .5;">
-        <div class="not-done"></div>
-        <div class="descripcion">
-          <p class="nombre"></p>
-          <div class="right-description">
-            <p class="timestamp"></p>
-          </div>
-        </div>
-      </li>
-      
-    </ul>
-    
-    <div class="loading-spinner" id="loading-spinner">
-      <div class="circle1"></div>
-      <div class="circle2"></div>
-      <div class="circle3"></div>
-    </div>
-    
-    <h2 class="titulo-terminadas">Tareas terminadas</h2>
-    <ul class="tareas-terminadas"></ul>
+
+  <form class="nueva-tarea" id="newtask">
+    <div class="not-done "></div>
+    <input id="input" type="text" placeholder="Nueva tarea"> <!-- en vez de "id" podria ser "name"-->
+    <button>
+      <img src="./assets/plus.png" alt="Agregar Tarea">
+    </button>
+  </form>
+
+  <ul class="tareas-pendientes">
+
+  </ul>
+
+  <div class="loading-spinner" id="loading-spinner">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
   </div>
+
+  <h2 class="titulo-terminadas">Tareas terminadas</h2>
+  <ul class="tareas-terminadas"></ul>
+
 
 </body>
 

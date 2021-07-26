@@ -1,18 +1,14 @@
 comprobarToken();
 window.onload = () => { // Protegido con onload porque necesito algo del documento 
+    renderizarSkeletons(5, ".tareas-pendientes");
     setTimeout(() => {
-        finalizarLoader();
-    }, 3000);
-    pedirTareas();
-    botonAgregarTarea();
+        pedirTareas();
+        botonAgregarTarea();   
+        cerrarSesion();     
+    }, 2000);
 }
 
-function finalizarLoader() {
-    const contenedorSpinner = document.querySelector("#carga-inicial");
-    const contenedorMainPage = document.querySelector("#main-page");
-    contenedorSpinner.style.opacity = 0;   
-    contenedorMainPage.style.opacity = 1;   
-}
+
 
 function comprobarToken() {
     const token = localStorage.getItem("token");
@@ -33,6 +29,7 @@ function pedirTareas() {
         return datos.json();
     }).then(tareas => {
         crearTareas(tareas);
+        removerSkeleton(contenedor);
     }).catch(err => {
         console.log(err);
     });
@@ -88,9 +85,7 @@ function crearTareas(tareas) {
     document.querySelector('ul.tareas-pendientes').innerHTML = '';
     document.querySelector('ul.tareas-terminadas').innerHTML = '';
 
-    tareas.forEach(tarea => {
-        renderizarTarea(tarea);
-    }); // Se podría usar filter de tareas completas también
+    tareas.forEach(tarea => renderizarTarea(tarea)); // Se podría usar filter de tareas completas también
 }
 
 function definirContenedor(tarea) {
@@ -165,4 +160,12 @@ function formatearFecha(fecha) {
     const year = date.getFullYear();
     return formatDay = `${day < 10 ? "0" + day : day}-${month < 10 ? "0" + month : month}-${year}`;
 
+}
+
+
+function cerrarSesion() {
+    const loguotButton = document.querySelector("#logout-button");
+    loguotButton.addEventListener( "click", () => {
+        location.href = './login.html';
+    });
 }
